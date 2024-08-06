@@ -34,7 +34,7 @@ jobs:
       - name: Create build artifact
         run: |
           mkdir -p artifacts
-          zip -r artifacts/$ARTIFACT_NAME dist/
+          zip -r artifacts/$ARTIFACT_NAME build/
 
 
       - name: Install AWS CLI
