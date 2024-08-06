@@ -43,4 +43,4 @@ jobs:
 
       - name: Deploy to S3
         run: |
-          aws s3 sync build/ s3://shoaib-teams --delete
+          aws s3 sync build/ s3://teams-ms --delete
