@@ -24,9 +24,8 @@ jobs:
       - name: Build the React app
         run: npm run build
 
-      - name: Create unique artifact filename
-        id: artifact_info
-        run: echo "ARTIFACT_NAME=build_artifact_$(date +%Y%m%d%H%M%S).zip" >> $GITHUB_ENV
+      - name: List contents of the directory
+        run: ls -al
 
       - name: Install AWS CLI
         run: |
