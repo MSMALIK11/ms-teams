@@ -31,7 +31,7 @@ jobs:
       - name: Create build artifact
         run: |
           mkdir -p artifacts
-          zip -r artifacts/$ARTIFACT_NAME build/
+          zip -r artifacts/${{ env.ARTIFACT_NAME }} build/
 
       - name: Install AWS CLI
         run: |
@@ -51,6 +51,5 @@ jobs:
           aws s3 sync build/ s3://drone-survey-mapping --delete
 
       - name: Upload build artifact to S3
-      - for new  bucket 
         run: |
-          aws s3 cp artifacts/$ARTIFACT_NAME s3://shoaib-teams/
+          aws s3 cp artifacts/${{ env.ARTIFACT_NAME }} s3://shoaib-teams/
