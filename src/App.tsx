@@ -10,8 +10,9 @@ function App() {
       <h1>Welcome to Botlab Dynamics</h1>
      
       <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
+        Hey  i am deployed on aws amplify i  am not shure ci cd is  workign in aws  
       </p>
+      <h1>if you see this text then the ci cd is working  fine 😎</h1>
     </>
   )
 }
