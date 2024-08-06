@@ -28,11 +28,6 @@ jobs:
         id: artifact_info
         run: echo "ARTIFACT_NAME=build_artifact_$(date +%Y%m%d%H%M%S).zip" >> $GITHUB_ENV
 
-      - name: Create build artifact
-        run: |
-          mkdir -p artifacts
-          zip -r artifacts/${{ env.ARTIFACT_NAME }} build/
-
       - name: Install AWS CLI
         run: |
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
