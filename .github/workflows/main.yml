@@ -27,15 +27,16 @@ jobs:
       - name: List contents of the directory
         run: ls -al
 
-      - name: Create unique artifact filename
+      - name: Create versioned artifact filename
         id: artifact_info
-        run: echo "ARTIFACT_NAME=build_artifact_$(date +%Y%m%d%H%M%S).zip" >> $GITHUB_ENV
+        run: |
+          VERSION=$(jq -r .version package.json)
+          echo "ARTIFACT_NAME=build_artifact_v$VERSION.zip" >> $GITHUB_ENV
 
       - name: Create build artifact
         run: |
           mkdir -p artifacts
-          zip -r artifacts/$ARTIFACT_NAME dist/
-
+          zip -r artifacts/$ARTIFACT_NAME build/
 
       - name: Install AWS CLI
         run: |
@@ -52,9 +53,8 @@ jobs:
 
       - name: Deploy to S3
         run: |
-          aws s3 sync dist/ s3://teams-ms --delete
+          aws s3 sync dist/ s3://teams-ms
 
       - name: Upload build artifact to S3
         run: |
           aws s3 cp artifacts/$ARTIFACT_NAME s3://teams-ms/
-
