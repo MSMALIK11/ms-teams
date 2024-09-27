@@ -26,19 +26,22 @@ jobs:
 
       - name: List contents of the directory
         run: ls -al
+
       - name: Install jq
         run: sudo apt-get install jq
-        
+
+      # Create the artifact filename with version number from package.json
       - name: Create versioned artifact filename
         id: artifact_info
         run: |
           VERSION=$(jq -r .version package.json)
           echo "ARTIFACT_NAME=build_artifact_v$VERSION.zip" >> $GITHUB_ENV
 
+      # Create build artifact (assuming the output is in the 'dist/' directory)
       - name: Create build artifact
         run: |
           mkdir -p artifacts
-          zip -r artifacts/$ARTIFACT_NAME build/
+          zip -r artifacts/$ARTIFACT_NAME dist/
 
       - name: Install AWS CLI
         run: |
@@ -53,10 +56,12 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
+      # Deploy the built files to S3 (sync from 'dist/' directory)
       - name: Deploy to S3
         run: |
-          aws s3 sync dist/ s3://teams-ms
+          aws s3 sync dist/ s3://teams-ms --delete
 
+      # Upload the artifact (zipped 'dist/' folder) to S3 for backup or reference
       - name: Upload build artifact to S3
         run: |
           aws s3 cp artifacts/$ARTIFACT_NAME s3://teams-ms/
