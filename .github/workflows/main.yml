@@ -24,9 +24,6 @@ jobs:
       - name: Build the React app
         run: npm run build
 
-      - name: List contents of the directory
-        run: ls -al
-
       - name: Install jq
         run: sudo apt-get install jq
 
